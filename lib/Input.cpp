@@ -145,7 +145,7 @@ void Input::setFocus(bool focus){
 void Input::focus() {
     this->setFocus(true);
     
-    this->background.setOutlineColor(sf::Color(255, 152, 0, 255));
+    this->background.setOutlineColor(*Template::getActive()->getAccent());
     
     this->getCursor()->setCursorPosition(this->getString().size());
     

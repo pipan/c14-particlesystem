@@ -23,7 +23,7 @@ public:
     TriangleParticleShape(Enviroment* env, int x, int y, float offset, float pX, float pY);
     virtual ~TriangleParticleShape();    
 
-    ParticleSystem* generate(float mass, float stiffness) override;
+    void generate(ParticleSystem* pSys, float mass, float stiffness) override;
 };
 
 #endif /* TRIANGLEPARTICLESHAPE_H */

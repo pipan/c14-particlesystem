@@ -16,14 +16,21 @@ DistanceConstraintForm::DistanceConstraintForm(bool selected) : Radio(selected) 
     
     this->length = new LabelInput("l", "", "length");
     this->stiffness = new LabelInput("kd", "", "stiffness");
+    this->currentLength = new ImageButton("assets/images/link.png", sf::Vector2f(32,32));
     
     this->length->setLayout(new Layout(0, 0, 0.5f, 32, PERCENTAGE));
     this->length->getInput()->setInputListener(new LengthInputListener(this));
     this->addRenderable(this->length);
     
+    this->currentLength->setLayout(new Layout(0.5, 0, 32, 32, PERCENTAGE));
+    this->currentLength->setMouseListener(new MouseCurrentLength(this));
+    this->addRenderable(this->currentLength);
+    
     this->stiffness->setLayout(new Layout(0, 50, 1.0f, 32, PERCENTAGE));
     this->stiffness->getInput()->setInputListener(new StiffnessInputListener(this));
     this->addRenderable(this->stiffness);
+    
+    this->setShortcutListener("CurrentConstraintDistance", new CurrentDistanceShortcutListener(this));
 }
 
 DistanceConstraint* DistanceConstraintForm::getConstraint() {
@@ -42,6 +49,15 @@ bool DistanceConstraintForm::hasConstraint() {
 void DistanceConstraintForm::setConstraint(DistanceConstraint* constraint) {
     this->constraint = constraint;
     this->fill();
+}
+
+void DistanceConstraintForm::setCurrentConstraintLength() {
+    VectorMath* vectorMath = (VectorMath*) Provider::getInstance()->get("vectorMath");
+    if (this->hasConstraint()){
+        float d = vectorMath->distance(this->getConstraint()->getParticle(1)->getPosition(), this->getConstraint()->getParticle(2)->getPosition());
+        this->getConstraint()->setDistance(d);
+        this->fill();
+    }
 }
 
 void DistanceConstraintForm::fill() {
@@ -112,4 +128,32 @@ void StiffnessInputListener::onInput(InputEvent* event){
     if (this->form->hasConstraint()){
         this->form->getConstraint()->setStiffness(input->getFloat());
     }
+}
+
+MouseCurrentLength::MouseCurrentLength(DistanceConstraintForm* form) {
+    this->form = form;
+}
+
+void MouseCurrentLength::onClick(MouseEvent* event) {
+    this->form->setCurrentConstraintLength();
+}
+
+void MouseCurrentLength::onDrag(MouseEvent* event) {
+
+}
+
+void MouseCurrentLength::onDrop(MouseEvent* event) {
+
+}
+
+void MouseCurrentLength::onMove(MouseEvent* event) {
+
+}
+
+CurrentDistanceShortcutListener::CurrentDistanceShortcutListener(DistanceConstraintForm* form){
+    this->form = form;
+}
+
+void CurrentDistanceShortcutListener::onTrigger(KeyboardEvent* event) {
+    this->form->setCurrentConstraintLength();
 }

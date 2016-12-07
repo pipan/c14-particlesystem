@@ -60,9 +60,9 @@ int SquareParticleShape::getY() {
     return this->y;
 }
 
-ParticleSystem* SquareParticleShape::generate(float mass, float stiffness) {
-    
+void SquareParticleShape::generate(ParticleSystem* pSys, float mass, float stiffness) {
     //Remove all
+    pSys->clear();
     
     int i = 0;
     int j = 0;
@@ -71,7 +71,7 @@ ParticleSystem* SquareParticleShape::generate(float mass, float stiffness) {
     for (i = 0; i < this->getY(); i++){
         for (j = 0; j < this->getX(); j++){
             particles[i][j] = new Particle(this->position.x + j * this->getOffset(), this->position.y + i * this->getOffset(), mass);
-            this->system->addParticle(particles[i][j]);
+            pSys->addParticle(particles[i][j]);
         }
     }
     
@@ -82,21 +82,26 @@ ParticleSystem* SquareParticleShape::generate(float mass, float stiffness) {
             if (i > 0){
                 //RIGHT
                 if (j + 1 < this->getX()){
-                    this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j + 1], stiffness));
+                    pSys->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j + 1], stiffness));
                 }
                 //MIDDLE
-                this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j], stiffness));
+                pSys->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j], stiffness));
                 //LEFT
                 if (j > 0){
-                    this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j - 1], stiffness));
+                    pSys->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j - 1], stiffness));
                 }
             }
             //LEFT
             if (j > 0){
-                this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i][j - 1], stiffness));
+                pSys->addConstrain(new DistanceConstraint(particles[i][j], particles[i][j - 1], stiffness));
             }
         }
     }
+}
+
+
+ParticleSystem* SquareParticleShape::generate(float mass, float stiffness) {
+    this->generate(this->getSystem(), mass, stiffness);
     
     return this->getSystem();
 }

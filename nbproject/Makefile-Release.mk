@@ -66,11 +66,13 @@ OBJECTFILES= \
 	${OBJECTDIR}/lib/ParticleForm.o \
 	${OBJECTDIR}/lib/ParticleService.o \
 	${OBJECTDIR}/lib/ParticleSystem.o \
+	${OBJECTDIR}/lib/ParticleSystemGenerator.o \
 	${OBJECTDIR}/lib/PlayButton.o \
 	${OBJECTDIR}/lib/Provider.o \
 	${OBJECTDIR}/lib/Radio.o \
 	${OBJECTDIR}/lib/RadioGroup.o \
 	${OBJECTDIR}/lib/Renderable.o \
+	${OBJECTDIR}/lib/SectionBlock.o \
 	${OBJECTDIR}/lib/SelectRadioGroup.o \
 	${OBJECTDIR}/lib/SelectableText.o \
 	${OBJECTDIR}/lib/ShortcutService.o \
@@ -263,6 +265,11 @@ ${OBJECTDIR}/lib/ParticleSystem.o: lib/ParticleSystem.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lib/ParticleSystem.o lib/ParticleSystem.cpp
 
+${OBJECTDIR}/lib/ParticleSystemGenerator.o: lib/ParticleSystemGenerator.cpp 
+	${MKDIR} -p ${OBJECTDIR}/lib
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lib/ParticleSystemGenerator.o lib/ParticleSystemGenerator.cpp
+
 ${OBJECTDIR}/lib/PlayButton.o: lib/PlayButton.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib
 	${RM} "$@.d"
@@ -287,6 +294,11 @@ ${OBJECTDIR}/lib/Renderable.o: lib/Renderable.cpp
 	${MKDIR} -p ${OBJECTDIR}/lib
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lib/Renderable.o lib/Renderable.cpp
+
+${OBJECTDIR}/lib/SectionBlock.o: lib/SectionBlock.cpp 
+	${MKDIR} -p ${OBJECTDIR}/lib
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/lib/SectionBlock.o lib/SectionBlock.cpp
 
 ${OBJECTDIR}/lib/SelectRadioGroup.o: lib/SelectRadioGroup.cpp 
 	${MKDIR} -p ${OBJECTDIR}/lib

@@ -10,7 +10,7 @@ build/Debug/MinGW-Windows/lib/DistanceConstraintForm.o: \
  lib/../include/VectorMath.h lib/../include/LabelInput.h \
  lib/../include/Input.h lib/../include/CursorLine.h \
  lib/../include/TimeService.h lib/../include/TimeInterval.h \
- lib/../include/SelectableText.h
+ lib/../include/SelectableText.h lib/../include/ImageButton.h
 
 lib/../include/DistanceConstraintForm.h:
 
@@ -55,3 +55,5 @@ lib/../include/TimeService.h:
 lib/../include/TimeInterval.h:
 
 lib/../include/SelectableText.h:
+
+lib/../include/ImageButton.h:

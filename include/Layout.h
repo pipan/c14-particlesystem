@@ -175,7 +175,7 @@ public:
      * 
      * @param Layout* parent layout of a parent object
      */
-    void resize(Layout* parent);
+    virtual void resize(Layout* parent);
     
     /**
      * Assign object that is using this layout.

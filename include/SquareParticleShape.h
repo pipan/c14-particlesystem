@@ -41,6 +41,7 @@ public:
     int getY();
     sf::Vector2f getPosition();
     
+    virtual void generate(ParticleSystem* pSys, float mass, float stiffness);
     virtual ParticleSystem* generate(float mass, float stiffness);
 };
 

@@ -60,6 +60,16 @@ bool DistanceConstraint::hasParticle(Particle* p) {
     return (this->p1->getId() == p->getId() || this->p2->getId() == p->getId());
 }
 
+Particle* DistanceConstraint::getParticle(int i) {
+    switch (i){
+        case 1:
+            return this->p1;
+        case 2:
+            return this->p2;
+    }
+    return NULL;
+}
+
 void DistanceConstraint::execute(float deltaTime, int projectionCount) {
     sf::Vector2f deltaP;    
     float size = this->vectorMath->distance(this->p1->getVirtualPosition(), this->p2->getVirtualPosition());

@@ -23,7 +23,9 @@ build/Debug/MinGW-Windows/main.o: main.cpp include/System/Enum.h \
  include/DistanceConstraintForm.h include/ToggleRadioGroup.h \
  include/DefaultRadioGroup.h include/SquareParticleShape.h \
  include/ParticleSystem.h include/TriangleParticleShape.h \
- include/SquareParticleShape.h include/CircleParticleShape.h
+ include/SquareParticleShape.h include/CircleParticleShape.h \
+ include/SectionBlock.h include/ParticleSystemGenerator.h \
+ include/CircleParticleShape.h include/TriangleParticleShape.h
 
 include/System/Enum.h:
 
@@ -154,3 +156,11 @@ include/TriangleParticleShape.h:
 include/SquareParticleShape.h:
 
 include/CircleParticleShape.h:
+
+include/SectionBlock.h:
+
+include/ParticleSystemGenerator.h:
+
+include/CircleParticleShape.h:
+
+include/TriangleParticleShape.h:

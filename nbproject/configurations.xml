@@ -22,9 +22,11 @@
       <itemPath>include/EventHandler.h</itemPath>
       <itemPath>include/EventListener.h</itemPath>
       <itemPath>include/Events.h</itemPath>
+      <itemPath>include/FlexLayout.h</itemPath>
       <itemPath>include/Focusable.h</itemPath>
       <itemPath>include/FormService.h</itemPath>
       <itemPath>include/HorizontalDevider.h</itemPath>
+      <itemPath>HorizontalLayout.h</itemPath>
       <itemPath>include/Events/IEvent.h</itemPath>
       <itemPath>include/ImageButton.h</itemPath>
       <itemPath>include/Input.h</itemPath>
@@ -40,11 +42,13 @@
       <itemPath>include/ParticleForm.h</itemPath>
       <itemPath>include/ParticleService.h</itemPath>
       <itemPath>include/ParticleSystem.h</itemPath>
+      <itemPath>include/ParticleSystemGenerator.h</itemPath>
       <itemPath>include/PlayButton.h</itemPath>
       <itemPath>include/Provider.h</itemPath>
       <itemPath>include/Radio.h</itemPath>
       <itemPath>include/RadioGroup.h</itemPath>
       <itemPath>include/Renderable.h</itemPath>
+      <itemPath>include/SectionBlock.h</itemPath>
       <itemPath>include/Events/SelectEvent.h</itemPath>
       <itemPath>include/Listeners/SelectListener.h</itemPath>
       <itemPath>include/SelectRadioGroup.h</itemPath>
@@ -58,6 +62,7 @@
       <itemPath>include/ToggleRadioGroup.h</itemPath>
       <itemPath>include/TriangleParticleShape.h</itemPath>
       <itemPath>include/VectorMath.h</itemPath>
+      <itemPath>include/VerticalLayout.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -97,11 +102,13 @@
       <itemPath>lib/ParticleForm.cpp</itemPath>
       <itemPath>lib/ParticleService.cpp</itemPath>
       <itemPath>lib/ParticleSystem.cpp</itemPath>
+      <itemPath>lib/ParticleSystemGenerator.cpp</itemPath>
       <itemPath>lib/PlayButton.cpp</itemPath>
       <itemPath>lib/Provider.cpp</itemPath>
       <itemPath>lib/Radio.cpp</itemPath>
       <itemPath>lib/RadioGroup.cpp</itemPath>
       <itemPath>lib/Renderable.cpp</itemPath>
+      <itemPath>lib/SectionBlock.cpp</itemPath>
       <itemPath>lib/SelectRadioGroup.cpp</itemPath>
       <itemPath>lib/SelectableText.cpp</itemPath>
       <itemPath>lib/ShortcutService.cpp</itemPath>
@@ -148,6 +155,8 @@
           <commandLine>-lopengl32 -lsfml-window -lsfml-graphics -lsfml-system</commandLine>
         </linkerTool>
       </compileType>
+      <item path="HorizontalLayout.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/CircleParticleShape.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/ColisionGrid.h" ex="false" tool="3" flavor2="0">
@@ -186,6 +195,8 @@
       </item>
       <item path="include/Events/SelectEvent.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/FlexLayout.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/Focusable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/FormService.h" ex="false" tool="3" flavor2="0">
@@ -222,6 +233,8 @@
       </item>
       <item path="include/ParticleSystem.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/ParticleSystemGenerator.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/PlayButton.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Provider.h" ex="false" tool="3" flavor2="0">
@@ -231,6 +244,8 @@
       <item path="include/RadioGroup.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Renderable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/SectionBlock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/SelectRadioGroup.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -255,6 +270,8 @@
       <item path="include/TriangleParticleShape.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/VectorMath.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/VerticalLayout.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/CircleParticleShape.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -318,6 +335,8 @@
       </item>
       <item path="lib/ParticleSystem.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="lib/ParticleSystemGenerator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="lib/PlayButton.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/Provider.cpp" ex="false" tool="1" flavor2="0">
@@ -327,6 +346,8 @@
       <item path="lib/RadioGroup.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/Renderable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="lib/SectionBlock.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/SelectRadioGroup.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -371,6 +392,8 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="HorizontalLayout.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/CircleParticleShape.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/ColisionGrid.h" ex="false" tool="3" flavor2="0">
@@ -409,6 +432,8 @@
       </item>
       <item path="include/Events/SelectEvent.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/FlexLayout.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/Focusable.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/FormService.h" ex="false" tool="3" flavor2="0">
@@ -445,6 +470,8 @@
       </item>
       <item path="include/ParticleSystem.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="include/ParticleSystemGenerator.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="include/PlayButton.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Provider.h" ex="false" tool="3" flavor2="0">
@@ -454,6 +481,8 @@
       <item path="include/RadioGroup.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/Renderable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/SectionBlock.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/SelectRadioGroup.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -478,6 +507,8 @@
       <item path="include/TriangleParticleShape.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/VectorMath.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/VerticalLayout.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="lib/CircleParticleShape.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -541,6 +572,8 @@
       </item>
       <item path="lib/ParticleSystem.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="lib/ParticleSystemGenerator.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="lib/PlayButton.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/Provider.cpp" ex="false" tool="1" flavor2="0">
@@ -550,6 +583,8 @@
       <item path="lib/RadioGroup.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/Renderable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="lib/SectionBlock.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="lib/SelectRadioGroup.cpp" ex="false" tool="1" flavor2="0">
       </item>

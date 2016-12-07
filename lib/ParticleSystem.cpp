@@ -85,6 +85,35 @@ void ParticleSystem::removeConstraint(int id) {
     delete c;
 }
 
+void ParticleSystem::clear() {
+    RadioGroup* constraintService = (RadioGroup*) Provider::getInstance()->get("constraintService");
+    RadioGroup* particleService = (RadioGroup*) Provider::getInstance()->get("particleService");
+    
+    if (particleService->isSelected()){
+        particleService->select(NULL);
+    }
+    if (constraintService->isSelected()){
+        constraintService->select(NULL);
+    }
+    
+    std::map<int, Constraint*>::iterator ci = this->constraints.begin();
+    std::map<int, Constraint*>::iterator cend = this->constraints.end();
+    while (ci != cend){
+        delete this->constraints.at(ci->first);
+        ci++;
+    }
+    this->constraints.clear();
+    
+    std::map<int, Particle*>::iterator i = this->particles.begin();
+    std::map<int, Particle*>::iterator end = this->particles.end();
+    while (i != end){
+        delete this->particles.at(i->first);
+        i++;
+    }
+    this->particles.clear();
+}
+
+
 void ParticleSystem::update(sf::RenderWindow* window) {
 
 }

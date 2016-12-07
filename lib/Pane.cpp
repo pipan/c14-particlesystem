@@ -48,8 +48,34 @@ void Pane::update(sf::RenderWindow* window) {
     this->background.setPosition(this->getLayout()->getPosition().x, this->getLayout()->getPosition().y);
     this->background.setSize(this->getLayout()->getSize());
     
+    Layout* l;
+    float width = this->getLayout()->getBounds().width;
+    std::list<Layout*> percentage;
     std::list<Renderable*>::const_iterator end = this->getRenderableItems()->end();
     std::list<Renderable*>::iterator iterator = this->getRenderableItems()->begin();
+    while (iterator != end){
+        l = (*iterator)->getLayout();
+        switch (l->getType()){
+            case PERCENTAGE:
+                percentage.push_back(l);
+                break;
+            default:
+                l->refreshBounds();
+                width -= l->getBounds().width;
+                break;
+        }
+        iterator++;
+    }
+    
+    std::list<Layout*>::const_iterator lEnd = percentage.end();
+    std::list<Layout*>::iterator lIterator = percentage.begin();
+    while (lIterator != lEnd){
+        (*lIterator)->setSize(width / percentage.size(), (*lIterator)->getSize().y);
+        (*lIterator)->refreshBounds();
+        lIterator++;
+    }
+    
+    iterator = this->getRenderableItems()->begin();
     while (iterator != end){
         (*iterator)->update(window);
         iterator++;

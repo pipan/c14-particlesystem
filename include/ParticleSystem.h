@@ -120,6 +120,8 @@ public:
      */
     void removeConstraint(int id);
     
+    void clear();
+    
     /**
      * render object to window
      * 

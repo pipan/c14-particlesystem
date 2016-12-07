@@ -19,7 +19,7 @@ CursorLine::CursorLine() {
     this->cursotPosition = 0;
     this->visible = true;
     this->lastChange = this->time->now();
-    this->line.setFillColor(sf::Color(255, 152, 0, 255));
+    this->line.setFillColor(sf::Color(*Template::getActive()->getAccent()));
 }
 
 void CursorLine::setCursorPosition(int position) {

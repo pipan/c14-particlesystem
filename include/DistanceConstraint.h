@@ -78,6 +78,7 @@ public:
     void setStiffness(float s);
         
     bool hasParticle(Particle* p);
+    Particle* getParticle(int i);
     
     sf::FloatRect getBounds() override;
     bool collision(float x, float y) override;

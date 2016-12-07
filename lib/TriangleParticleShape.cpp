@@ -15,8 +15,9 @@ TriangleParticleShape::TriangleParticleShape(Enviroment* env, int x, int y, floa
 
 TriangleParticleShape::~TriangleParticleShape() {}
 
-ParticleSystem* TriangleParticleShape::generate(float mass, float stiffness) {
+void TriangleParticleShape::generate(ParticleSystem* pSys, float mass, float stiffness) {
     //Remove all
+    pSys->clear();
     
     int i = 0;
     int j = 0;
@@ -33,7 +34,7 @@ ParticleSystem* TriangleParticleShape::generate(float mass, float stiffness) {
     for (i = 0; i < this->getX(); i++){
         for (j = 0; j <= i; j++){
             particles[i][j] = new Particle((this->getY() - i - 1) * this->getOffset() / 2 + this->getPosition().x + j * this->getOffset(), this->getPosition().y + i * this->getOffset(), mass);
-            this->getSystem()->addParticle(particles[i][j]);
+            pSys->addParticle(particles[i][j]);
         }
     }
     
@@ -44,19 +45,17 @@ ParticleSystem* TriangleParticleShape::generate(float mass, float stiffness) {
             if (i > 0){
                 //MIDDLE
                 if (j < i){
-                    this->getSystem()->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j], stiffness));
+                    pSys->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j], stiffness));
                 }
                 //LEFT
                 if (j > 0){
-                    this->getSystem()->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j - 1], stiffness));
+                    pSys->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j - 1], stiffness));
                 }
             }
             //LEFT
             if (j > 0){
-                this->getSystem()->addConstrain(new DistanceConstraint(particles[i][j], particles[i][j - 1], stiffness));
+                pSys->addConstrain(new DistanceConstraint(particles[i][j], particles[i][j - 1], stiffness));
             }
         }
     }
-    
-    return this->getSystem();
 }

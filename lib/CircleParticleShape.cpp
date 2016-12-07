@@ -19,13 +19,14 @@ CircleParticleShape::CircleParticleShape(Enviroment* env, int x, int y, float of
 CircleParticleShape::~CircleParticleShape() {
 }
 
-ParticleSystem* CircleParticleShape::generate(float mass, float stiffness) {
+void CircleParticleShape::generate(ParticleSystem* pSys, float mass, float stiffness) {
     VectorMath* vectorMath = (VectorMath*) Provider::getInstance()->get("vectorMath");
     
     float diagonal = sqrt(this->getX() * this->getOffset() * this->getX() * this->getOffset() / 2);
     sf::Vector2f center(this->getPosition().x + diagonal, this->getPosition().y + diagonal); 
     
     //Remove all
+    pSys->clear();
     
     int i = 0;
     int j = 0;
@@ -41,7 +42,7 @@ ParticleSystem* CircleParticleShape::generate(float mass, float stiffness) {
     std::list<Particle*>* prev = NULL;
     std::list<Particle*>* current = NULL;
     //Generate all particles
-    this->getSystem()->addParticle(centerParticle);
+    pSys->addParticle(centerParticle);
     
     float maxDistance = sqrt(2 * this->getOffset() * this->getOffset());
     
@@ -56,7 +57,7 @@ ParticleSystem* CircleParticleShape::generate(float mass, float stiffness) {
         for (j = 0; j < numberOfParticles; j++){
             p = new Particle(center.x + cos(angle) * radius, center.y + sin(angle) * radius, mass);
             current->push_back(p);
-            this->getSystem()->addParticle(p);
+            pSys->addParticle(p);
             
             angle += addAngle;
             pprev = p;
@@ -70,12 +71,12 @@ ParticleSystem* CircleParticleShape::generate(float mass, float stiffness) {
         while (iCur != eCur){
             //Circumference
             if (pprev != NULL){
-                this->getSystem()->addConstrain(new DistanceConstraint(pprev, (*iCur), stiffness));
+                pSys->addConstrain(new DistanceConstraint(pprev, (*iCur), stiffness));
             }
             
             //WITH  center
             if (prev == NULL){
-                this->getSystem()->addConstrain(new DistanceConstraint(centerParticle, (*iCur), stiffness));
+                pSys->addConstrain(new DistanceConstraint(centerParticle, (*iCur), stiffness));
             }
             //With previous circumference
             else{
@@ -83,7 +84,7 @@ ParticleSystem* CircleParticleShape::generate(float mass, float stiffness) {
                 std::list<Particle*>::iterator ePrev = prev->end();
                 while (iPrev != ePrev){
                     if (vectorMath->distance((*iCur), (*iPrev)) < maxDistance){
-                        this->getSystem()->addConstrain(new DistanceConstraint((*iCur), (*iPrev), stiffness));
+                        pSys->addConstrain(new DistanceConstraint((*iCur), (*iPrev), stiffness));
                     }
                     iPrev++;
                 }
@@ -93,33 +94,8 @@ ParticleSystem* CircleParticleShape::generate(float mass, float stiffness) {
             iCur++;
         }
         //Last of circumference
-        this->getSystem()->addConstrain(new DistanceConstraint(pprev, first, stiffness));
+        pSys->addConstrain(new DistanceConstraint(pprev, first, stiffness));
         
         prev = current;
     }
-    
-    //Generate all constraints
-//    for (i = 0; i < this->getY(); i++){
-//        for (j = 0; j < this->getX(); j++){
-//            //UP
-//            if (i > 0){
-//                //RIGHT
-//                if (j + 1 < this->getX()){
-//                    this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j + 1], stiffness));
-//                }
-//                //MIDDLE
-//                this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j], stiffness));
-//                //LEFT
-//                if (j > 0){
-//                    this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i - 1][j - 1], stiffness));
-//                }
-//            }
-//            //LEFT
-//            if (j > 0){
-//                this->system->addConstrain(new DistanceConstraint(particles[i][j], particles[i][j - 1], stiffness));
-//            }
-//        }
-//    }
-    
-    return this->getSystem();
 }

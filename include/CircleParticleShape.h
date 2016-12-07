@@ -26,7 +26,7 @@ public:
     CircleParticleShape(Enviroment* env, int x, int y, float offset, float pX, float pY);
     virtual ~CircleParticleShape();    
 
-    ParticleSystem* generate(float mass, float stiffness) override;
+    void generate(ParticleSystem* pSys, float mass, float stiffness) override;
 };
 
 #endif /* CIRCLEPARTICLESHAPE_H */

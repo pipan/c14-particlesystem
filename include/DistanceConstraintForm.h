@@ -19,6 +19,7 @@
 #include "DistanceConstraint.h"
 #include "LabelInput.h"
 #include "RadioGroup.h"
+#include "ImageButton.h"
 
 
 class DistanceConstraintForm : public Radio {
@@ -26,6 +27,7 @@ class DistanceConstraintForm : public Radio {
     
     LabelInput* length;
     LabelInput* stiffness;
+    ImageButton* currentLength;
 public:
     DistanceConstraintForm();
     DistanceConstraintForm(bool selected);
@@ -35,6 +37,7 @@ public:
     void setConstraint(DistanceConstraint* constraint);
     DistanceConstraint* getConstraint();
     
+    void setCurrentConstraintLength();
     void fill();
     
     void setSelected(bool selected) override;
@@ -57,5 +60,26 @@ public:
     void onInput(InputEvent* event) override;
 };
 
+class MouseCurrentLength : public MouseListener {
+    DistanceConstraintForm* form;
+public:
+    MouseCurrentLength(DistanceConstraintForm* form);
+    void onClick(MouseEvent* event) override;
+    void onDrag(MouseEvent* event) override;
+    void onDrop(MouseEvent* event) override;
+    void onMove(MouseEvent* event) override;
+};
+
+class CurrentDistanceShortcutListener : public ShortcutListener{
+    DistanceConstraintForm* form;
+public:
+    CurrentDistanceShortcutListener(DistanceConstraintForm* form);
+    /**
+     * Method that is called when user press SPACE.
+     * 
+     * @param KeyboardEvent* event
+     */
+    void onTrigger(KeyboardEvent* event);
+};
 #endif /* DISTANCECONSTRAINTFORM_H */
 

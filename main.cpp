@@ -48,6 +48,8 @@
 #include "include/SquareParticleShape.h"
 #include "include/TriangleParticleShape.h"
 #include "include/CircleParticleShape.h"
+#include "include/SectionBlock.h"
+#include "include/ParticleSystemGenerator.h"
 
 /**
  */
@@ -247,6 +249,88 @@ void PaneMouseListener::onMove(MouseEvent* event) {
 
 }
 
+class PSysGeneratorListener : public MouseListener {
+public:
+    ParticleSystem* pSys;
+    PSysGeneratorListener(ParticleSystem* pSys);
+    virtual void onClick(MouseEvent* event) override;
+    virtual void onDrag(MouseEvent* event) override;
+    virtual void onMove(MouseEvent* event) override;
+    virtual void onDrop(MouseEvent* event) override;
+};
+class TriangleGeneratorListener : public PSysGeneratorListener {
+public:
+    TriangleGeneratorListener(ParticleSystem* pSys);
+    virtual void onClick(MouseEvent* event) override;
+};
+class SquareGeneratorListener : public PSysGeneratorListener {
+public:
+    SquareGeneratorListener(ParticleSystem* pSys);
+    virtual void onClick(MouseEvent* event) override;
+};
+class CircleGeneratorListener : public PSysGeneratorListener {
+public:
+    CircleGeneratorListener(ParticleSystem* pSys);
+    virtual void onClick(MouseEvent* event) override;
+};
+class ClearGeneratorListener : public PSysGeneratorListener {
+public:
+    ClearGeneratorListener(ParticleSystem* pSys);
+    virtual void onClick(MouseEvent* event) override;
+};
+
+PSysGeneratorListener::PSysGeneratorListener(ParticleSystem* pSys){
+    this->pSys = pSys;
+}
+void PSysGeneratorListener::onClick(MouseEvent* event) {
+    
+}
+void PSysGeneratorListener::onDrag(MouseEvent* event) {
+
+}
+void PSysGeneratorListener::onDrop(MouseEvent* event) {
+
+}
+void PSysGeneratorListener::onMove(MouseEvent* event) {
+
+}
+
+TriangleGeneratorListener::TriangleGeneratorListener(ParticleSystem* pSys) : PSysGeneratorListener(pSys){
+}
+
+void TriangleGeneratorListener::onClick(MouseEvent* event) {
+    ParticleSystemGenerator* generator = (ParticleSystemGenerator*) Provider::getInstance()->get("particleSystemGenerator");
+    
+    generator->generateTriangle(this->pSys);
+}
+
+SquareGeneratorListener::SquareGeneratorListener(ParticleSystem* pSys) : PSysGeneratorListener(pSys){
+}
+
+void SquareGeneratorListener::onClick(MouseEvent* event) {
+    ParticleSystemGenerator* generator = (ParticleSystemGenerator*) Provider::getInstance()->get("particleSystemGenerator");
+    
+    generator->generateSquare(this->pSys);
+}
+
+CircleGeneratorListener::CircleGeneratorListener(ParticleSystem* pSys) : PSysGeneratorListener(pSys){
+}
+
+void CircleGeneratorListener::onClick(MouseEvent* event) {
+    ParticleSystemGenerator* generator = (ParticleSystemGenerator*) Provider::getInstance()->get("particleSystemGenerator");
+    
+    generator->generateCircle(this->pSys);
+}
+
+ClearGeneratorListener::ClearGeneratorListener(ParticleSystem* pSys) : PSysGeneratorListener(pSys){
+}
+
+void ClearGeneratorListener::onClick(MouseEvent* event) {
+    this->pSys->clear();
+}
+
+
+
 
 void registerServices(){
     PointerCursorController* pointerCursorController = new PointerCursorController();
@@ -260,6 +344,7 @@ void registerServices(){
     provider->add("shortcut", new ShortcutService());
     provider->add("grid", new ColisionGrid());
     provider->add("cursorService", new MouseCursorService(POINTER));
+    provider->add("particleSystemGenerator", new ParticleSystemGenerator());
     
     provider->add("time", new TimeService());
     provider->add("vectorMath", new VectorMath());
@@ -288,20 +373,30 @@ int main(int argc, char** argv) {
     
     //set active color tempalte
     Template::activate(new ColorTemplate());
+    //Template::activate(new ColorTemplate(sf::Color(1,87,156),sf::Color(129,208,250),sf::Color(0,188,208)));
+    //Template::activate(new ColorTemplate(sf::Color(51,105,30),sf::Color(197, 225, 165),sf::Color(244, 67, 54)));
     
     //Create enviroment
     Enviroment* env = new Enviroment(time, sf::Vector2f(0, 90.81f), 0.1, 3, 650.0f);
     
     //Init window
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "My window");
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "Particle System - C14");
     
     //init interface elements
     Pane* left = new Pane(new Layout(0,0,1280/4,720));
     Pane* body = new Pane(new Layout(0,0,4 * 1280 / 4,720));
+    SectionBlock* buttonSection = new SectionBlock();
+    SectionBlock* formSection = new SectionBlock();
     PlayButton* button = new PlayButton(sf::Vector2f(48,48));
-    ImageButton *pointerCursor = new ImageButton("assets/images/pointer-cursor.png", sf::Vector2f(48,48));
-    ImageButton *addCursor = new ImageButton("assets/images/add-cursor.png", sf::Vector2f(48,48));
-    ImageButton *removeCursor = new ImageButton("assets/images/remove-cursor.png", sf::Vector2f(48,48));
+    ImageButton *pointerCursor = new ImageButton("assets/images/move.png", sf::Vector2f(48,48));
+    ImageButton *addCursor = new ImageButton("assets/images/add.png", sf::Vector2f(48,48));
+    ImageButton *removeCursor = new ImageButton("assets/images/remove.png", sf::Vector2f(48,48));
+    ImageButton *clearPSys = new ImageButton("assets/images/clear.png", sf::Vector2f(48,48));
+    ImageButton *squarePSys = new ImageButton("assets/images/square.png", sf::Vector2f(48,48));
+    ImageButton *circlePSys = new ImageButton("assets/images/circle.png", sf::Vector2f(48,48));
+    ImageButton *trianglePSys = new ImageButton("assets/images/triangle.png", sf::Vector2f(48,48));
+    HorizontalDevider* cursorDevider = new HorizontalDevider(*Template::getActive()->getForegroundLight(DISABLED));
+    HorizontalDevider* generatorDevider = new HorizontalDevider(*Template::getActive()->getForegroundLight(DISABLED));
     ParticleForm* particleForm = new ParticleForm(false);
     DistanceConstraintForm* distanceConstraintForm = new DistanceConstraintForm(false);
     EnviromentForm* enviromentForm = new EnviromentForm(false);
@@ -312,13 +407,8 @@ int main(int argc, char** argv) {
     constraintService->setChangeListener(new ChangeSelectedConstraintListener(leftTab, distanceConstraintForm));
     
     //Particles
-//    CircleParticleShape* circleShape = new CircleParticleShape(env, 15, 15, 12, 650, 320);
-//    ParticleSystem* pSys = circleShape->generate(2, 0.7);
-//    TriangleParticleShape* triangleShape = new TriangleParticleShape(env, 25, 25, 14, 650, 320);
-//    ParticleSystem* pSys = triangleShape->generate(2, 0.7);
-    SquareParticleShape* squareShape = new SquareParticleShape(env, 20, 20, 20, 550, 120);
-    ParticleSystem* pSys = squareShape->generate(3, 0.5);
-    //ParticleSystem* pSys = new ParticleSystem(env, false);
+
+    ParticleSystem* pSys = new ParticleSystem(env, false);
 
 //    Particle* p1 = new Particle(650, 320, 0);
 //    Particle* p2 = new Particle(700, 300, 5);
@@ -348,6 +438,7 @@ int main(int argc, char** argv) {
     shortcut->registerMapShortcut("DELETE", "RemoveSelected");
     shortcut->registerMapShortcut("ESCAPE", "Deselect");
     shortcut->registerMapShortcut("LEFT_CTRL+D", "Deselect");
+    shortcut->registerMapShortcut("LEFT_CTRL+SPACE", "CurrentConstraintDistance");
     
     left->getView()->setViewport(sf::FloatRect(0,0,0.25f,1));
     left->setBackgroundColor(sf::Color(33, 33, 33, 255));
@@ -356,32 +447,58 @@ int main(int argc, char** argv) {
     body->setBackgroundColor(sf::Color(244, 244, 244, 255));
     body->setMouseListener(new PaneMouseListener(pSys));
     
+    buttonSection->setLayout(new Layout(0, 0, 48, 700));
+    formSection->setLayout(new Layout(48, 12, 1.0f, 700, PERCENTAGE));
+    
     //Left view items
     button->setLayout(new Layout(sf::Vector2f(0, 0), sf::Vector2f(48,48)));
     button->setChangeListener(new PlayChangeListener(pSys));
-    left->addRenderable(button);
-    pointerCursor->setLayout(new Layout(sf::Vector2f(48, 0), sf::Vector2f(48,48)));
+    buttonSection->addRenderable(button);
+    
+    cursorDevider->setLayout(new Layout(0, 54, 1.0f, 1, PERCENTAGE));
+    buttonSection->addRenderable(cursorDevider);
+    
+    pointerCursor->setLayout(new Layout(sf::Vector2f(0, 60), sf::Vector2f(48,48)));
     pointerCursor->setMouseListener(new CursorMouseListener(cursorGroup, POINTER));
-    left->addRenderable(pointerCursor);
-    addCursor->setLayout(new Layout(sf::Vector2f(96, 0), sf::Vector2f(48,48)));
+    buttonSection->addRenderable(pointerCursor);
+    addCursor->setLayout(new Layout(sf::Vector2f(0, 108), sf::Vector2f(48,48)));
     addCursor->setMouseListener(new CursorMouseListener(cursorGroup, ADD));
-    left->addRenderable(addCursor);
-    removeCursor->setLayout(new Layout(sf::Vector2f(144, 0), sf::Vector2f(48,48)));
+    buttonSection->addRenderable(addCursor);
+    removeCursor->setLayout(new Layout(sf::Vector2f(0, 156), sf::Vector2f(48,48)));
     removeCursor->setMouseListener(new CursorMouseListener(cursorGroup, REMOVE));
-    left->addRenderable(removeCursor);
+    buttonSection->addRenderable(removeCursor);
     
-    particleForm->setLayout(new Layout(0, 50, 1.0f, 400, PERCENTAGE));
+    generatorDevider->setLayout(new Layout(0, 210, 1.0f, 1, PERCENTAGE));
+    buttonSection->addRenderable(generatorDevider);
+    
+    squarePSys->setLayout(new Layout(sf::Vector2f(0, 216), sf::Vector2f(48,48)));
+    squarePSys->setMouseListener(new SquareGeneratorListener(pSys));
+    buttonSection->addRenderable(squarePSys);
+    trianglePSys->setLayout(new Layout(sf::Vector2f(0, 264), sf::Vector2f(48,48)));
+    trianglePSys->setMouseListener(new TriangleGeneratorListener(pSys));
+    buttonSection->addRenderable(trianglePSys);
+    circlePSys->setLayout(new Layout(sf::Vector2f(0, 312), sf::Vector2f(48,48)));
+    circlePSys->setMouseListener(new CircleGeneratorListener(pSys));
+    buttonSection->addRenderable(circlePSys);
+    clearPSys->setLayout(new Layout(sf::Vector2f(0, 360), sf::Vector2f(48,48)));
+    clearPSys->setMouseListener(new ClearGeneratorListener(pSys));
+    buttonSection->addRenderable(clearPSys);
+    
+    left->addRenderable(buttonSection);
+    left->addRenderable(formSection);
+    
+    particleForm->setLayout(new Layout(0, 0, 1.0f, 400, PERCENTAGE));
     particleForm->getLayout()->setPadding(12);
-    left->addRenderable(particleForm);
+    formSection->addRenderable(particleForm);
     
-    distanceConstraintForm->setLayout(new Layout(0, 50, 1.0f, 400, PERCENTAGE));
+    distanceConstraintForm->setLayout(new Layout(0, 0, 1.0f, 400, PERCENTAGE));
     distanceConstraintForm->getLayout()->setPadding(12);
-    left->addRenderable(distanceConstraintForm);
+    formSection->addRenderable(distanceConstraintForm);
     
-    enviromentForm->setLayout(new Layout(0, 50, 1.0f, 400, PERCENTAGE));
+    enviromentForm->setLayout(new Layout(0, 0, 1.0f, 400, PERCENTAGE));
     enviromentForm->getLayout()->setPadding(12);
     enviromentForm->setEnviroment(env);
-    left->addRenderable(enviromentForm);
+    formSection->addRenderable(enviromentForm);
     
     //Body items
     body->addRenderable(pSys);
